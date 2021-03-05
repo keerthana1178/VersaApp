@@ -37,7 +37,7 @@ const Camera = () => {
       <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center'}}>
         <TouchableOpacity
           onPress={() => {
-            console.log('Hello');
+            console.log('pressed');
             takePicture;
           }}
           style={styles.capture}>
