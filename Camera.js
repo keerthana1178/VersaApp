@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 
 const Camera = () => {
-  const [code, setCode] = useState("Point at a Barcode")
+  const [code, setCode] = useState('Point at a Barcode');
   return (
     <View style={styles.container}>
       <Text style={styles.center}>Camera Module</Text>
@@ -26,11 +26,10 @@ const Camera = () => {
         //   buttonPositive: 'Ok',
         //   buttonNegative: 'Cancel',
         // }}
-      
+
         onGoogleVisionBarcodesDetected={({barcodes}) => {
           console.log(barcodes);
-            setCode(barcodes[0].rawData)
-          
+          setCode(barcodes[0].rawData);
         }}
         captureAudio={false}
       />
