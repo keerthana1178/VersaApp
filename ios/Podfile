@@ -1,16 +1,14 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '10.0'
+platform :ios, '11.0'
 
-target 'VersaApp' do
+target 'navigationTest' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
-  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
-
-  target 'VersaAppTests' do
+  target 'navigationTestTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -25,10 +23,10 @@ target 'VersaApp' do
   end
 end
 
-target 'VersaApp-tvOS' do
-  # Pods for VersaApp-tvOS
+target 'navigationTest-tvOS' do
+  # Pods for navigationTest-tvOS
 
-  target 'VersaApp-tvOSTests' do
+  target 'navigationTest-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
