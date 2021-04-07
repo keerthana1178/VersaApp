@@ -4,7 +4,7 @@ import {View, StyleSheet} from 'react-native';
 import Camera from './Camera';
 // import {Navigation} from 'react-native-navigation';
 
-const SettingsScreen = (props) => {
+const SettingsScreen = props => {
   return (
     <View style={styles.root}>
       <Camera />

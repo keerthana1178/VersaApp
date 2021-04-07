@@ -1,4 +1,4 @@
-package com.navigationtest;
+package com.versainventoryapp;
 
 import com.reactnativenavigation.NavigationActivity;
 

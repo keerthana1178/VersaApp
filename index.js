@@ -4,7 +4,7 @@ import {View, Text, StyleSheet, Button, TouchableOpacity} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 import SettingsScreen from './App.js';
 
-const HomeScreen = (props) => {
+const HomeScreen = props => {
   return (
     <View style={styles.root}>
       <Text>Home Screen</Text>

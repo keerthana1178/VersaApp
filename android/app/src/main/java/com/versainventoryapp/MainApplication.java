@@ -1,4 +1,4 @@
-package com.navigationtest;
+package com.versainventoryapp;
 
 import android.app.Application;
 import android.content.Context;
@@ -11,6 +11,9 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+// import java.util.Arrays;
+// import com.nozbe.watermelondb.WatermelonDBPackage; // ⬅️ This!
+// import com.facebook.react.shell.MainReactPackage;
 
 public class MainApplication extends NavigationApplication {
 
@@ -21,12 +24,22 @@ public class MainApplication extends NavigationApplication {
           return BuildConfig.DEBUG;
         }
 
+        // @Override
+        // protected List<ReactPackage> getPackages() {
+        //   return Arrays.<ReactPackage>asList(
+        //     new MainReactPackage(),
+        //     new WatermelonDBPackage() // ⬅️ Here!
+        //   );
+        // }
+
         @Override
         protected List<ReactPackage> getPackages() {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
+          // packages.add(new WatermelonDBPackage());
+          // packages.add(new MainReactPackage());
           return packages;
         }
 
@@ -63,7 +76,7 @@ public class MainApplication extends NavigationApplication {
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("com.navigationtest.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("com.versainventoryapp.ReactNativeFlipper");
         aClass
             .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);
@@ -79,3 +92,4 @@ public class MainApplication extends NavigationApplication {
     }
   }
 }
+

@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface navigationTestTests : XCTestCase
+@interface VersaInventoryAppTests : XCTestCase
 
 @end
 
-@implementation navigationTestTests
+@implementation VersaInventoryAppTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL(^)(UIView *view))test
 {
