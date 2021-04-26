@@ -1,0 +1,1 @@
+[i].product.related_part.inventory_items[i].{quantity_on_hand, measurement_unit_name, facility_code, updated_at}

@@ -55,6 +55,15 @@ const SplashScreen = ({navigation}) => {
               <MaterialIcons name="navigate-next" color="#fff" size={20} />
             </LinearGradient>
           </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('DBTestProduct')}>
+            <LinearGradient
+              colors={['#FDB207', '#FDB207']}
+              style={styles.signIn}>
+              <Text style={styles.textSign}>DB Test</Text>
+              <MaterialIcons name="navigate-next" color="#fff" size={20} />
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
       </Animatable.View>
     </View>
