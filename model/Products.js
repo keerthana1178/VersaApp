@@ -1,6 +1,6 @@
 // model/Post.js
 import {Model} from '@nozbe/watermelondb';
-import {field} from '@nozbe/watermelondb/decorators';
+import {field, action} from '@nozbe/watermelondb/decorators';
 import children from '@nozbe/watermelondb/decorators/children';
 import date from '@nozbe/watermelondb/decorators/date';
 
@@ -15,8 +15,30 @@ export default class Product extends Model {
   @field('practical_name') practicalName;
   @field('product_category') productCategory;
   @field('measurement_unit_name') measurementUnitName;
+  // @field('ean') ean;
   @date('last_updated_on_versa') lastUpdatedOnVersa;
   @children('inventory') inventory;
+
+  @action async createBatchProducts(
+    productID,
+    name,
+    practicalName,
+    productCategory,
+    measurementUnitName,
+    lastUpdatedOnVersa,
+    // inventory,
+  ) {
+    await this.batch(
+      this.collection.get('products').prepareCreate(product => {
+        product.productId = productID;
+        product.name = name;
+        product.practicalName = practicalName;
+        product.productCategory = productCategory;
+        product.measurementUnitName = measurementUnitName;
+        product.lastUpdatedOnVersa = lastUpdatedOnVersa;
+      }),
+    );
+  }
 }
 
 // {name: 'product_id', type: 'number'},

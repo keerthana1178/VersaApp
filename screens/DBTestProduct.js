@@ -3,6 +3,7 @@ import {LoremIpsum} from 'lorem-ipsum';
 import database from '../model/database';
 import {View, Text, ScrollView, Button} from 'react-native';
 import {ProductCard} from '../components/ProductCard';
+import axios from 'axios';
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
@@ -49,6 +50,7 @@ const DBTestProduct = () => {
               product.name = lorem.generateWords(1);
               product.practicalName = lorem.generateWords(2);
               product.productCategory = 'FMCG';
+              product.ean = 'sfddshflsajdf';
               product.measurementUnitName = 'EA';
               product.lastUpdatedOnVersa = Date.now();
             });
@@ -69,7 +71,7 @@ const DBTestProduct = () => {
                   inventory.facilityCode = 'HAM';
                   inventory.measurementUnitName = 'EA';
                   inventory.inventoryUpdatedAt = Date.now();
-                  inventory.product.id = '2sf51sn40peue32h';
+                  inventory.product.id = 's4tuqueskuopm2uc';
                   // inventory.product.product_id = 431;
                 })
                 .then(() => {
@@ -87,6 +89,35 @@ const DBTestProduct = () => {
           console.log(await inventoryCollection.query().fetch());
         }}
         title="Add inventory to a product"
+      />
+      <Button
+        onPress={() => {
+          console.log('starting download');
+          async function getData() {
+            try {
+              const response = await axios.get(
+                'https://www10.versaccounts.com/v1/product.json',
+                {
+                  headers: {
+                    VERSACCOUNTS_AUTHORIZATION:
+                      '378f9f3ab9c9c2b2252f7a2a5deb430c3db42151',
+                  },
+                },
+              );
+              console.log(response.data[0].product.id);
+            } catch (error) {
+              console.error(error);
+            }
+          }
+          getData();
+        }}
+        title="Download Records"
+      />
+      <Button
+        onPress={() => {
+          productsCollection.createBatchProducts();
+        }}
+        title="check"
       />
     </View>
   );
