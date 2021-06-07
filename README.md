@@ -6,6 +6,7 @@ To run the app locally, clone the repository and run-
 git clone https://github.com/VT08/VersaApp.git
 cd VersaApp
 npm i
+yarn install
 ```
 Start the metro server by running-
 ``` 
