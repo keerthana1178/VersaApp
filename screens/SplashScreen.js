@@ -6,7 +6,6 @@ import {
   Dimensions,
   StyleSheet,
   StatusBar,
-  Image,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
@@ -61,6 +60,24 @@ const SplashScreen = ({navigation}) => {
               colors={['#FDB207', '#FDB207']}
               style={styles.signIn}>
               <Text style={styles.textSign}>DB Test</Text>
+              <MaterialIcons name="navigate-next" color="#fff" size={20} />
+            </LinearGradient>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('CameraScanner')}>
+            <LinearGradient
+              colors={['#FDB207', '#FDB207']}
+              style={styles.signIn}>
+              <Text style={styles.textSign}>Barcode Scanner</Text>
+              <MaterialIcons name="navigate-next" color="#fff" size={20} />
+            </LinearGradient>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('InventoryDetails')}>
+            <LinearGradient
+              colors={['#FDB207', '#FDB207']}
+              style={styles.signIn}>
+              <Text style={styles.textSign}>Inventory Page</Text>
               <MaterialIcons name="navigate-next" color="#fff" size={20} />
             </LinearGradient>
           </TouchableOpacity>
