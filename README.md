@@ -27,7 +27,7 @@ adb devices
 ```
 If the device is attached properly it should return a device ID, like so-
 
-![adb devices response screenshot](http//drive.google.com/uc?export=view&id=1bZAYNuRDpbhemfvC-QKoVgg2jYSR_bbH)
+![adb devices response screenshot](http://drive.google.com/uc?export=view&id=1bZAYNuRDpbhemfvC-QKoVgg2jYSR_bbH)
 
 following this, you can run-
 ```
