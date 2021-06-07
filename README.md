@@ -19,8 +19,9 @@ Start the android emulator before running the app. To run the app-
 npm run android
 ```
 ### To run the app on your android device
-Plug in your device and enable USB debugging (under developer options).
-In your terminal, check if your computer is recognising the  device by running-
+ enable USB debugging (under developer options).
+ Plug in your device and change usb prefernces to PTP.
+In your terminal, check if your computer is recognising the device by running-
 ```
 adb devices
 ```
