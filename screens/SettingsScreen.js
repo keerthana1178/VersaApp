@@ -1,7 +1,12 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet,SafeAreaView,ScrollView } from 'react-native';
+
+import { View, Text, Button, StyleSheet,SafeAreaView,ScrollView,TouchableOpacity,Alert } from 'react-native';
+import {useTheme} from '@react-navigation/native';
+
 
 const SettingsScreen = ({navigation}) => {
+    const {colors} = useTheme();
+    const theme = useTheme();
     return (
       
       <SafeAreaView style={styles.container}>
@@ -9,11 +14,23 @@ const SettingsScreen = ({navigation}) => {
         <View style={styles.header}>
           <Text style={styles.h1}>Settings</Text>
         </View>
-        <Text style={styles.h2}>Account Details</Text>
+        <TouchableOpacity onPress={()=>{navigation.push('Accounts')}}>
+        <Text style={styles.h2}>Account Details</Text>  
+        </TouchableOpacity>
+        <TouchableOpacity onPress={()=>{navigation.push('Date')}}>
         <Text style={styles.h2}>Date & Time</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={()=>{Alert.alert("Clear Data","Do you want to erase all the data?",
+        [
+          {text:"yes"},
+          {text:"No"},
+        ])
+        }}>
         <Text style={styles.h2}>Clear All Data</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
         <Text style={styles.h2}>Help</Text>
-        
+        </TouchableOpacity>
         </ScrollView>  
       </SafeAreaView>
       
@@ -21,6 +38,9 @@ const SettingsScreen = ({navigation}) => {
 };
 
 export default SettingsScreen;
+
+
+
 
 const styles = StyleSheet.create({
   container: {

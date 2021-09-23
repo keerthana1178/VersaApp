@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Button, StyleSheet, StatusBar} from 'react-native';
+import {View, Text, Button, StyleSheet, StatusBar,TouchableOpacity} from 'react-native';
 import {useTheme} from '@react-navigation/native';  
 import HomeTiles from '../components/Hometiles';
 
@@ -8,6 +8,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from './HomeScreen';
 import DownloadScreen from './Downloads';
 import UploadScreen from './Upload';
+import { log } from 'react-native-reanimated';
 const HomeStack = createStackNavigator();
 
 
@@ -21,11 +22,12 @@ const Warehouse = ({navigation}) => {
       <HomeTiles
         logo={require("../assets/download.png")}
         name="Download" 
-        onclick={() => navigation.push('Downloads')}
+        onclick={()=>{navigation.push('Downloads')}}
+        
       />
       <HomeTiles
         logo={require("../assets/upload.png")}
-        name="upload" 
+        name="Upload" 
         onclick={() => navigation.push('Uploads')}
       />    
       </View>  
@@ -35,42 +37,6 @@ const Warehouse = ({navigation}) => {
 
 export default Warehouse;
 
-
-const HomeStackScreen = ({navigation}) => (
-    <HomeStack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: '#F69422',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}>
-      <HomeStack.Screen
-        name="warehouse"
-        component={HomeScreen}
-        options={{
-          title: 'Home',
-          headerLeft: () => (
-            <Icon.Button
-              name="ios-menu"
-              size={25}
-              backgroundColor="#F69422"
-              onPress={() => navigation.openDrawer()}></Icon.Button>
-          ),
-        }}
-      />
-      <HomeStack.Screen
-        name='Downloads'
-        component={DownloadScreen}
-      />
-      <HomeStack.Screen
-        name='Uploads'
-        component={UploadScreen}
-      />
-    </HomeStack.Navigator>
-  );
 const styles = StyleSheet.create({
   container: {
     flex:1,

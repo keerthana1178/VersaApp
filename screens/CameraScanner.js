@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Dimensions, Alert} from 'react-native';
+import {View, Text, StyleSheet, Dimensions, Alert,Button} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 
 const CAM_VIEW_HEIGHT = Dimensions.get('screen').width * 1.5;
@@ -18,8 +18,11 @@ const scanAreaHeight = frameHeight / CAM_VIEW_WIDTH;
 const CameraScanner = () => {
   const [boxBorderColor, setBoxBorderColor] = useState('red');
   const [focusPoint, setfocusPoint] = useState({x: 0.5, y: 0.5});
+  const [scanStatus,setScanStatus]=useState(false);
+  const [data,setData]=useState("");
   return (
-    <View style={styles.container}>
+    <>
+    {!scanStatus?<View style={styles.container}>
       {/* <Text style={styles.banner}>Add Product</Text> */}
       <RNCamera
         style={styles.preview}
@@ -52,21 +55,41 @@ const CameraScanner = () => {
           console.log(barcodes);
           setBoxBorderColor('green');
           setTimeout(() => {
+            setData(barcodes.data);
+            setScanStatus(true);
             setBoxBorderColor('red');
           }, 1000);
         }}>
         {/* <View style={styles.box}></View> */}
         <View style={[styles.box1, {borderColor: boxBorderColor}]} />
       </RNCamera>
+    
+      
       {/* <View style={styles.footer} /> */}
     </View>
+
+    :
+    <View style={styles.data}>
+    <Text>
+        ProductID:{data}
+    </Text>
+    <Button
+      title="Not this ID? scan again"
+      onPress={() => {setData("");setScanStatus(false);}}
+    />
+    </View>
+    
+    }
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  // textView: {
-  //   flex: 1,
-  // },
+   data: {
+     flex: 1,
+     alignItems:'center',
+     justifyContent:'center'
+  },
   container: {
     flex: 1,
   },

@@ -12,6 +12,8 @@ import SettingsScreen from './SettingsScreen';
 import DownloadScreen from './Downloads';
 import UploadScreen from './Upload';
 import Warehouse from './Warehouse';
+import AccountDetails from './AccountDetails';
+import DateDetails from './DateDetails';
 
 const RootStack = createStackNavigator();
 
@@ -27,6 +29,8 @@ const RootStackScreen = ({navigation}) => (
     <RootStack.Screen name="DownloadScreen" component={DownloadScreen} />
     <RootStack.Screen name="UploadScreen" component={UploadScreen} />
     <RootStack.Screen name="Warehouse" component={Warehouse} />
+    <RootStack.Screen name="AccountDetails" component={AccountDetails} />
+    <RootStack.Screen name="DateDetails" component={DateDetails} />
   </RootStack.Navigator>
 );
 

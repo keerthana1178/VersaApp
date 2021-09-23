@@ -19,6 +19,9 @@ import MainTabScreen from './screens/MainTabScreen';
 import SupportScreen from './screens/SupportScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import BookmarkScreen from './screens/BookmarkScreen';
+import CameraScanner from './screens/CameraScanner';
+import InventoryDetails from './screens/InventoryDetails';
+import Warehouse from './screens/Warehouse';
 
 import {AuthContext} from './components/context';
 
@@ -168,9 +171,11 @@ const App = () => {
             <Drawer.Navigator
               drawerContent={props => <DrawerContent {...props} />}>
               <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
-              <Drawer.Screen name="SupportScreen" component={SupportScreen} />
+              <Drawer.Screen name="Inventory" component={InventoryDetails} />
+              <Drawer.Screen name="Scanner" component={CameraScanner} />
+              <Drawer.Screen name="Warehouse" component={Warehouse} />
               <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
-              <Drawer.Screen name="BookmarkScreen" component={BookmarkScreen} />
+
             </Drawer.Navigator>
           ) : (
             <RootStackScreen />

@@ -24,7 +24,7 @@ const HomeScreen = ({navigation}) => {
       <HomeTiles
         logo={require("../assets/warehouse.png")}
         name="Warehouse" 
-        onclick={() => navigation.push('warehouse')}
+        onclick={() => navigation.push('Warehouse')}
       />     
       <HomeTiles
         logo={require("../assets/setting.png")}

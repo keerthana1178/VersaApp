@@ -15,9 +15,13 @@ import SettingsScreen from './SettingsScreen';
 import DownloadScreen from './Downloads';
 import UploadScreen from './Upload';
 import Warehouse from './Warehouse';
+import AccountDetails from './AccountDetails';
+import DateDetails from './DateDetails';
+
 
 const HomeStack = createStackNavigator();
 const DetailsStack = createStackNavigator();
+const SettingStack= createStackNavigator();
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -46,6 +50,17 @@ const MainTabScreen = () => (
       }}
     />
     <Tab.Screen
+      name="Scanner"
+      component={CameraScanner}
+      options={{
+        tabBarLabel: 'Scanner',
+        tabBarColor: '#1E1E1E',
+        tabBarIcon: ({color}) => (
+          <Icon name="ios-scan-outline" color={color} size={26} />
+        ),
+      }}
+    />       
+    <Tab.Screen
       name="Profile"
       component={ProfileScreen}
       options={{
@@ -58,7 +73,7 @@ const MainTabScreen = () => (
     />
     <Tab.Screen
       name="Settings"
-      component={SettingsScreen}
+      component={SettingStackScreen}
       options={{
         tabBarLabel: 'Settings',
         tabBarColor: '#1E1E1E',
@@ -66,7 +81,7 @@ const MainTabScreen = () => (
           <Icon name="ios-settings-outline" color={color} size={26} />
         ),
       }}
-    />    
+    /> 
     {/* <Tab.Screen
         name="Explore"
         component={ExploreScreen}
@@ -125,19 +140,27 @@ const HomeStackScreen = ({navigation}) => (
       component={DownloadScreen}
     />
     <HomeStack.Screen
-      name='warehouse'
+      name='Warehouse'
       component={Warehouse}
     />
     <HomeStack.Screen
       name='Uploads'
       component={UploadScreen}
     />
+    <HomeStack.Screen
+      name='Accounts'
+      component={AccountDetails}
+    />
+    <HomeStack.Screen
+      name='Date'
+      component={DateDetails}
+    />
   </HomeStack.Navigator>
 );
 
 const DetailsStackScreen = ({navigation}) => (
   <DetailsStack.Navigator
-    screenOptions={{
+  screenOptions={{
       headerStyle: {
         backgroundColor: '#F69422',
       },
@@ -161,3 +184,41 @@ const DetailsStackScreen = ({navigation}) => (
     />
   </DetailsStack.Navigator>
 );
+
+
+const SettingStackScreen = ({navigation}) => (
+  <SettingStack.Navigator
+  screenOptions={{
+      headerStyle: {
+        backgroundColor: '#F69422',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }}>
+    <SettingStack.Screen
+      name="Settings"
+      component={SettingsScreen}
+      options={{
+        headerLeft: () => (
+          <Icon.Button
+            name="ios-menu"
+            size={25}
+            backgroundColor="#F69422"
+            onPress={() => navigation.openDrawer()}></Icon.Button>
+        ),
+      }}
+    />
+    <SettingStack.Screen
+      name='Accounts'
+      component={AccountDetails}
+    />
+    <SettingStack.Screen
+      name='Date'
+      component={DateDetails}
+    />
+  </SettingStack.Navigator>
+);
+
+
