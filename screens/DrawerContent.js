@@ -12,6 +12,7 @@ import {
   Switch,
 } from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
+import SelectDropdown from 'react-native-select-dropdown';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -23,6 +24,17 @@ export function DrawerContent(props) {
   const paperTheme = useTheme();
 
   const {signOut, toggleTheme} = React.useContext(AuthContext);
+  const countries = [
+    'AUS',
+    'DM',
+    'HAM',
+    'MTL',
+    'NO',
+    'PRL',
+    'TRX',
+    'YOW',
+    'YOWO',
+  ];
 
   return (
     <View style={{flex: 1}}>
@@ -38,7 +50,7 @@ export function DrawerContent(props) {
                 style={styles.avatarImage}
                 size={80}
               />
-              <View style={{marginLeft:15, flexDirection:'column'}}>
+              <View style={{marginLeft: 15, flexDirection: 'column'}}>
                 <Title style={styles.title}>John Doe</Title>
               </View>
             </View>
@@ -53,6 +65,32 @@ export function DrawerContent(props) {
                                 <Caption style={styles.caption}>Followers</Caption>
                             </View>
                         </View> */}
+          </View>
+
+          <View>
+            <SelectDropdown
+              data={countries}
+              onSelect={(selectedItem, index) => {
+                console.log(selectedItem, index);
+              }}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                // text represented after item is selected
+                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                // text represented for each item in dropdown
+                // if data array is an array of objects then return item.property to represent item in dropdown
+                return item;
+              }}
+              buttonStyle={{
+                marginHorizontal: 20,
+                marginTop: 30,
+                borderRadius: 30,
+                backgroundColor: 'orange',
+              }}
+              // defaultButtonText="Select"
+            />
           </View>
 
           <Drawer.Section style={styles.drawerSection}>

@@ -175,7 +175,6 @@ const App = () => {
               <Drawer.Screen name="Scanner" component={CameraScanner} />
               <Drawer.Screen name="Warehouse" component={Warehouse} />
               <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
-
             </Drawer.Navigator>
           ) : (
             <RootStackScreen />

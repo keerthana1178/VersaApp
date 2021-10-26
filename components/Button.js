@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     flexDirection: 'row',
   },
+  textSign: {color: 'black', fontSize: 20, fontWeight: '600'},
 });
 
 export default Button;
