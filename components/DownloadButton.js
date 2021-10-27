@@ -16,9 +16,9 @@ function AppButton({title, onPress}) {
 
 const styles = StyleSheet.create({
   button: {
-    position: 'absolute',
+    //position: 'absolute',
     //top: 600,
-    bottom: 20,
+    //bottom: 20,
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
