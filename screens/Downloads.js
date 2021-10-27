@@ -1,24 +1,36 @@
+/* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
 import {View, Text, Button, StyleSheet} from 'react-native';
 //import Button from '../components/Button';
 import {Dimensions} from 'react-native';
 import DownloadButton from '../components/DownloadButton';
 import DownloadData from '../components/DownloadData';
+import {getCurrentDate, getCurrentTime, getString} from '../util';
+import { downloadProducts, getProductsDownloadTimestamp } from './InventoryDetails';
+
 const DownloadScreen = ({navigation}) => {
-  const getCurrentDate = () => {
-    var date = new Date().getDate();
-    var month = new Date().getMonth() + 1;
-    var year = new Date().getFullYear();
-    return date + '-' + month + '-' + year;
-  };
-  const getCurrentTime = () => {
-    var hours = new Date().getHours();
-    var minutes = new Date().getMinutes();
-    var seconds = new Date().getSeconds();
-    return hours + ':' + minutes + ':' + seconds;
-  };
 
   const [press, setPress] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [timestamp, setTimestamp] = useState('');
+
+  if (loading) {
+    getProductsDownloadTimestamp().then(ts => {
+      setLoading(false);
+      setTimestamp(ts);
+    });
+    return <View><Text>Initializing ...</Text></View>
+  }
+
+  function getDownloadDate() {
+    // eslint-disable-next-line prettier/prettier
+    return timestamp == null || timestamp.length == 0 ? '' : timestamp.split(' ')[0];
+  }
+
+  function getDownloadTime() {
+    return timestamp == null || timestamp.length == 0 ? '' : timestamp.split(' ')[1];
+  }
+
   return (
     <View style={styles.container}>
       <View
@@ -33,15 +45,19 @@ const DownloadScreen = ({navigation}) => {
       </View>
 
       {press && (
-        <DownloadData date={getCurrentDate()} time={getCurrentTime()} />
+        <DownloadData date={getDownloadDate()} time={getDownloadTime()} />
       )}
       <DownloadButton
         title="Download"
-        onPress={() => setPress(!press)}></DownloadButton>
+        onPress={() => { 
+          downloadProducts();
+          setPress(!press);
+        }}></DownloadButton>
     </View>
   );
 };
-//position for button bottom nundi pedtunte ravatledhu
+
+
 export default DownloadScreen;
 
 const styles = StyleSheet.create({
