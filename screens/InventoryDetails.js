@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
@@ -16,8 +17,10 @@ import {Dimensions} from 'react-native';
 import Trial from '../components/Trial';
 import {set} from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/Ionicons';
-import CompleteDetails from './CompleteDetails';
+//import axios from 'axios';
+import { axiosInstance, getString, setString, getCurrentDate, getCurrentTime } from '../util';
 
+/*
 const CompleteData = [
   {
     id: 1,
@@ -68,21 +71,70 @@ const CompleteData = [
     SystemInventory: '99',
   },
 ];
+*/
+
+const allProductsKey = "allProducts"
+const productsTimestampKey = "productsDownloadTime"
+
+export function downloadProducts() {
+  axiosInstance.get('/product.json')
+  .then(function (rsp) {
+   var products = rsp.data.map(p => ({
+     ProductName: p.product.name,
+     title: p.product.practical_name,
+     Pid: p.product.id,
+     id: p.product.id,
+     SystemInventory: p.inventory_items == null ? 0 : p.inventory_items.reduce((pq, item) => pq + item.quantity_on_hand, 0)
+    }))
+    console.log(products);
+    setString(allProductsKey, JSON.stringify(products))
+    const timestamp = getCurrentDate() + ' ' + getCurrentTime();
+    setString(productsTimestampKey, timestamp);
+    console.log('product count: ' + products.length);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+
+export async function getProductsDownloadTimestamp() {
+  return await getString(productsTimestampKey);
+}
+
+async function getAllProducts() {
+  const productsStr = await getString(allProductsKey);
+  if (!productsStr) {
+    downloadProducts();
+    return [];
+  }
+  return JSON.parse(productsStr);
+}
+
 
 const InventoryDetails = () => {
-  const [data, setData] = useState(CompleteData);
+  const [loading, setLoading] = useState(true);
+  const [fullData, setFullData] = useState([])
+  const [data, setData] = useState([]);
   const [query, setQuery] = useState('');
-  const [fullData, setFullData] = useState(CompleteData);
   const [clickable, setClickable] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const [press, setPress] = useState(false);
+
+  if (loading) {
+    getAllProducts().then(products => {
+      setLoading(false);
+      setFullData(products);
+      setData(products);
+    });
+    return (<View><Text>Loading ...</Text></View>)
+  } 
 
   const handleSearch = text => {
     const formattedQuery = text.toLowerCase();
-    // console.log(formattedQuery);
     var filteredData = fullData;
     filteredData = fullData.filter(function (item) {
-      return item.ProductName.includes(formattedQuery);
+      //return item.ProductName.includes(formattedQuery);
+      const target = item.title ? item.title : item.ProductName;
+      return target != null && target.toLowerCase().includes(formattedQuery);
     });
     setData(filteredData);
     setQuery(text);
@@ -125,7 +177,7 @@ const InventoryDetails = () => {
     );
   }
 
-  return !press ? (
+  return (
     <View style={{flex: 1, backgroundColor: '#FAEEE0', elevation: 0}}>
       <View>
         <View style={styles.header}>
@@ -144,12 +196,11 @@ const InventoryDetails = () => {
               Pid={item.Pid}
               location={item.location}
               SystemInventory={item.SystemInventory}
-              onPress={() => setPress(true)}
             />
           )}
           refreshing={refreshing}
           onRefresh={() => {
-            setData(CompleteData);
+            setData(fullData);
           }}></FlatList>
 
         {/* <Button
@@ -159,21 +210,8 @@ const InventoryDetails = () => {
           content="ADD PRODUCT"
         /> */}
       </View>
+      <Toolbar />
     </View>
-  ) : (
-    <CompleteDetails
-      title="SKU #: UGG-BB-PUR-06"
-      Pid="3259810"
-      location="3259810"
-      SystemInventory="50"
-      UpdatedInventory="70"
-      TypeOfInventory="Finished Goods"
-      BatchQty="20"
-      Length="90"
-      Width="90"
-      Height="90"
-      Weight="90"
-    />
   );
 };
 
