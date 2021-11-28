@@ -8,6 +8,7 @@ import {
   StyleSheet,
   StatusBar,
   Alert,
+  ImageBackground
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
@@ -18,7 +19,8 @@ import {useTheme} from 'react-native-paper';
 
 import {AuthContext} from '../components/context';
 
-import Users from '../model/users';
+//import Users from '../model/users';
+//import { getUserDetails, getUserDtils } from '../thedb';
 
 const SignInScreen = ({navigation}) => {
   const [data, setData] = React.useState({
@@ -89,9 +91,17 @@ const SignInScreen = ({navigation}) => {
     }
   };
 
-  const loginHandle = (userName, password) => {
-    const foundUser = Users.filter(item => {
-      return userName == item.username && password == item.password;
+  //var Users=[];
+
+  /*const loginHandle = (userName, password) => {
+
+    //Users=getUserDetails(userName, password);
+    //var checkUsers=JSON.stringify(Users);
+    //console.log(checkUsers);
+    //const foundUser=Users;
+    
+    const foundUser = getUserDetails(userName, password).filter(item => {
+      return userName == item.username && password == item.passwordHash;
     });
 
     if (data.username.length == 0 || data.password.length == 0) {
@@ -109,11 +119,49 @@ const SignInScreen = ({navigation}) => {
       ]);
       return;
     }
+    
     signIn(foundUser);
+  };*/
+
+const loginHandle = (userName, password) => {
+
+    if (data.username.length == 0 || data.password.length == 0) {
+      Alert.alert(
+        'Wrong Input!',
+        'Username or password field cannot be empty.',
+        [{ text: 'Okay' }],
+      );
+      return;
+    }
+    else {
+      db.transaction((tx) => {
+        tx.executeSql(
+          `SELECT username, passwordHash FROM Users WHERE username=? AND passwordHash=?`,
+          [userName, password],
+          (tx, results) => {
+            //console.log(results.rows.item(0));
+            if (results.rows.item(0)) {
+              console.log("found account");
+              signIn(results.rows.item(0));
+              //console.log("found");
+            }
+            else {
+              Alert.alert('Invalid User!', 'Username or password is incorrect.', [
+                { text: 'Okay' },
+              ]);
+            }
+  
+          });
+      });
+    }
   };
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      source={require('../assets/versa_login.png')}
+      style={[styles.container]}
+      resizeMode="cover"
+    >
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
       <View style={styles.header}>
         <Text style={styles.text_header}>Welcome!</Text>
@@ -253,7 +301,7 @@ const SignInScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </Animatable.View>
-    </View>
+    </ImageBackground>
   );
 };
 

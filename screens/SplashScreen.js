@@ -6,6 +6,7 @@ import {
   Dimensions,
   StyleSheet,
   StatusBar,
+  ImageBackground,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
@@ -16,7 +17,11 @@ const SplashScreen = ({navigation}) => {
   const {colors} = useTheme();
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      source={require('../assets/versa_login.png')}
+      style={[styles.container,styles.imgbackgrd]}
+      resizeMode="cover"
+    >
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
       <View style={styles.header}>
         <Animatable.Image
@@ -44,7 +49,7 @@ const SplashScreen = ({navigation}) => {
           ]}>
           Manage your Inventory
         </Text>
-        <Text style={styles.text}>Sign in with account</Text>
+        <Text style={styles.text}>Sign in with account!!</Text>
         <View style={styles.button}>
           <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')}>
             <LinearGradient
@@ -83,7 +88,7 @@ const SplashScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </Animatable.View>
-    </View>
+    </ImageBackground>
   );
 };
 
@@ -97,16 +102,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000000',
   },
+  imgbackgrd:{
+
+  },
   header: {
     flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
   },
   footer: {
-    flex: 1,
+    flex: 1.8,
     backgroundColor: '#fff',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
     paddingVertical: 50,
     paddingHorizontal: 30,
   },
@@ -134,6 +142,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 50,
     flexDirection: 'row',
+    marginBottom:5
   },
   textSign: {
     color: 'white',

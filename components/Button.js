@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, TouchableOpacity, StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const Button = ({content, top, width, propsStyle}) => {
+const Button = ({content, top, width, propsStyle, onclick}) => {
   return (
     // <DropShadow
     //   style={{
@@ -18,6 +18,7 @@ const Button = ({content, top, width, propsStyle}) => {
     //     <Text>Hello</Text>
     //   </View>
     <TouchableOpacity
+      onPress={onclick}
       style={{...styles.touchableOpacity, ...propsStyle, top: top}}>
       <LinearGradient
         colors={['#FDB207', '#FDB207']}
@@ -38,6 +39,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     flexDirection: 'row',
   },
+  textSign: {color: 'black', fontSize: 20, fontWeight: '600'},
 });
 
 export default Button;

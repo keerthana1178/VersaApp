@@ -19,12 +19,21 @@ import MainTabScreen from './screens/MainTabScreen';
 import SupportScreen from './screens/SupportScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import BookmarkScreen from './screens/BookmarkScreen';
+import CameraScanner from './screens/CameraScanner';
+import InventoryDetails from './screens/InventoryDetails';
+import Warehouse from './screens/Warehouse';
 
 import {AuthContext} from './components/context';
 
 import RootStackScreen from './screens/RootStackScreen';
 
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import SQLite from "react-native-sqlite-storage";
+import { dbInit } from './db';
+
+import {LogBox} from 'react-native';
+LogBox.ignoreLogs(['Reanimated 2']);
+LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
 const Drawer = createDrawerNavigator();
 
@@ -61,6 +70,17 @@ const App = () => {
       text: '#ffffff',
     },
   };
+
+  global.db = SQLite.openDatabase(
+    {
+        name:'versauserdb',
+        location:'default',
+    },
+    () => {},
+    error => { console.log("ERROR: " + error) }
+  );
+
+  dbInit();
 
   const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
 
@@ -106,8 +126,9 @@ const App = () => {
       signIn: async foundUser => {
         // setUserToken('fgkj');
         // setIsLoading(false);
-        const userToken = String(foundUser[0].userToken);
-        const userName = foundUser[0].username;
+        //const userToken = String(foundUser[0].userToken);
+        const userToken = String("token123");
+        const userName = foundUser.username;
 
         try {
           await AsyncStorage.setItem('userToken', userToken);
@@ -168,9 +189,10 @@ const App = () => {
             <Drawer.Navigator
               drawerContent={props => <DrawerContent {...props} />}>
               <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
-              <Drawer.Screen name="SupportScreen" component={SupportScreen} />
+              <Drawer.Screen name="Inventory" component={InventoryDetails} />
+              <Drawer.Screen name="Scanner" component={CameraScanner} />
+              <Drawer.Screen name="Warehouse" component={Warehouse} />
               <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
-              <Drawer.Screen name="BookmarkScreen" component={BookmarkScreen} />
             </Drawer.Navigator>
           ) : (
             <RootStackScreen />

@@ -12,8 +12,11 @@ import {
   Switch,
 } from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
+import SelectDropdown from 'react-native-select-dropdown';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {AuthContext} from '../components/context';
 
@@ -21,24 +24,36 @@ export function DrawerContent(props) {
   const paperTheme = useTheme();
 
   const {signOut, toggleTheme} = React.useContext(AuthContext);
+  const countries = [
+    'AUS',
+    'DM',
+    'HAM',
+    'MTL',
+    'NO',
+    'PRL',
+    'TRX',
+    'YOW',
+    'YOWO',
+  ];
 
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
           <View style={styles.userInfoSection}>
-            {/* <View style={{flexDirection: 'row', marginTop: 15}}>
+            <View style={{flexDirection: 'row', marginTop: 15}}>
               <Avatar.Image
                 source={{
-                  uri: 'https://api.adorable.io/avatars/50/abott@adorable.png',
+                  uri:
+                    'https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png',
                 }}
-                size={50}
+                style={styles.avatarImage}
+                size={80}
               />
-              <View style={{marginLeft:15, flexDirection:'column'}}>
-                                <Title style={styles.title}>John Doe</Title>
-                                <Caption style={styles.caption}>@j_doe</Caption>
-                            </View> 
-            </View> */}
+              <View style={{marginLeft: 15, flexDirection: 'column'}}>
+                <Title style={styles.title}>John Doe</Title>
+              </View>
+            </View>
 
             {/* <View style={styles.row}>
                             <View style={styles.section}>
@@ -52,52 +67,78 @@ export function DrawerContent(props) {
                         </View> */}
           </View>
 
+          <View>
+            <SelectDropdown
+              data={countries}
+              onSelect={(selectedItem, index) => {
+                console.log(selectedItem, index);
+              }}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                // text represented after item is selected
+                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                // text represented for each item in dropdown
+                // if data array is an array of objects then return item.property to represent item in dropdown
+                return item;
+              }}
+              buttonStyle={{
+                marginHorizontal: 20,
+                marginTop: 30,
+                borderRadius: 30,
+                backgroundColor: 'orange',
+              }}
+              // defaultButtonText="Select"
+            />
+          </View>
+
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
               icon={({color, size}) => (
-                <Icon name="home-outline" color={color} size={size} />
+                <Ionicons name="home-outline" color={color} size={size} />
               )}
               label="DashBoard"
               onPress={() => {
                 props.navigation.navigate('Home');
               }}
             />
-            {/* <DrawerItem
+            <DrawerItem
               icon={({color, size}) => (
-                <Icon name="account-outline" color={color} size={size} />
+                <MaterialIcons name="inventory" color={color} size={size} />
               )}
-              label="Profile"
+              label="Inventory"
               onPress={() => {
-                props.navigation.navigate('Profile');
+                props.navigation.navigate('Inventory');
               }}
             />
             <DrawerItem
               icon={({color, size}) => (
-                <Icon name="bookmark-outline" color={color} size={size} />
+                <Icon name="scan-helper" color={color} size={size} />
               )}
-              label="Bookmarks"
+              label="Scanner"
               onPress={() => {
-                props.navigation.navigate('BookmarkScreen');
+                props.navigation.navigate('Scanner');
               }}
-            /> */}
-            {/* <DrawerItem
+            />
+            <DrawerItem
               icon={({color, size}) => (
-                <Icon name="settings-outline" color={color} size={size} />
+                <Icon name="warehouse" color={color} size={size} />
+              )}
+              label="Warehouse"
+              onPress={() => {
+                props.navigation.navigate('Warehouse');
+              }}
+            />
+            <DrawerItem
+              icon={({color, size}) => (
+                <Ionicons name="settings-outline" color={color} size={size} />
               )}
               label="Settings"
               onPress={() => {
                 props.navigation.navigate('SettingsScreen');
               }}
-            /> */}
-            {/* <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="account-check-outline" color={color} size={size} />
-              )}
-              label="Support"
-              onPress={() => {
-                props.navigation.navigate('SupportScreen');
-              }}
-            /> */}
+            />
           </Drawer.Section>
           {/* <Drawer.Section title="Preferences">
             <TouchableRipple
@@ -136,9 +177,12 @@ const styles = StyleSheet.create({
   userInfoSection: {
     paddingLeft: 20,
   },
+  avatarImage: {
+    backgroundColor: '#ffffff00',
+  },
   title: {
     fontSize: 16,
-    marginTop: 3,
+    marginTop: 25,
     fontWeight: 'bold',
   },
   caption: {

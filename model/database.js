@@ -13,7 +13,8 @@ const adapter = new SQLiteAdapter({
   // optional migrations
   // migrations,
   // synchronous mode only works on iOS. improves performance and reduces glitches in most cases, but also has some downsides - test with and without it
-  synchronous: true,
+  //synchronous: true,
+  erimentalUseJSI: true,
   // experimental JSI mode, a more advanced version of synchronous: true
   // experimentalUseJSI: true,
   // Optional, but you should implement this method:
@@ -32,7 +33,7 @@ const database = new Database({
     Inventory,
     // Post, // ⬅️ You'll add Models to Watermelon here
   ],
-  actionsEnabled: true,
+  //actionsEnabled: true,
 });
 
 export default database;
