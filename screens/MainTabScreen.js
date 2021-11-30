@@ -20,14 +20,20 @@ import Warehouse from './Warehouse';
 import AccountDetails from './AccountDetails';
 import DateDetails from './DateDetails';
 import CompleteDetails from './CompleteDetails';
-import InventoryCountScreen from './InventoryCountScreen';
-import PartDetailsScreen from './PartDetailsScreen';
 //import Warehouse from './Warehouse';
 
 const HomeStack = createStackNavigator();
 const DetailsStack = createStackNavigator();
 const SettingStack = createStackNavigator();
-
+const InventoryStack = createStackNavigator();
+const InventoryStackScreens = () => {
+  <InventoryStack.Navigator>
+    <InventoryStack.Screen
+      name="Inventory"
+      component={InventoryDetails}></InventoryStack.Screen>
+    <InventoryStack.Screen name="completeDetails" component={CompleteDetails} />
+  </InventoryStack.Navigator>;
+};
 const Tab = createMaterialBottomTabNavigator();
 
 const MainTabScreen = () => (
@@ -59,6 +65,19 @@ const MainTabScreen = () => (
         ),
       }}
     />
+    {/* <Tab.Screen
+      name="Inventory"
+      component={InventoryStackScreens}
+      options={{
+        tabBarLabel: 'Inventory',
+        tabBarColor: '#1E1E1E',
+        tabBarIcon: ({color}) => (
+          //<Icon name="business-outline" color={color} size={26} />
+
+          <MaterialIcons name="inventory" color={color} size={26} />
+        ),
+      }}
+    /> */}
     <Tab.Screen
       name="Scanner"
       component={CameraScanner}
@@ -71,7 +90,7 @@ const MainTabScreen = () => (
       }}
     />
     <Tab.Screen
-      name="WareHouse"
+      name="WareHOuse"
       component={Warehouse}
       options={{
         tabBarLabel: 'WareHouse',
@@ -143,8 +162,6 @@ const HomeStackScreen = ({navigation}) => (
     <HomeStack.Screen name="Uploads" component={UploadScreen} />
     <HomeStack.Screen name="Accounts" component={AccountDetails} />
     <HomeStack.Screen name="Date" component={DateDetails} />
-    <HomeStack.Screen name="Countscreen" component={InventoryCountScreen} />
-    <HomeStack.Screen name="PartDetail" component={PartDetailsScreen} />
   </HomeStack.Navigator>
 );
 
