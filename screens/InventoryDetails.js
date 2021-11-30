@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
   StyleSheet,
@@ -9,19 +7,23 @@ import {
   FlatList,
   TextInput,
   ScrollView,
-  Alert
 } from 'react-native';
-import {useTheme} from '@react-navigation/native';
 import {filter} from 'lodash';
 import Toolbar from '../components/Toolbar';
 import Button from '../components/Button';
 import {Dimensions} from 'react-native';
 import Trial from '../components/Trial';
-import {log, set} from 'react-native-reanimated';
+import {set} from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/Ionicons';
-import HomeTiles from '../components/Hometiles';
+import CompleteDetails from './CompleteDetails';
 //import axios from 'axios';
-import { axiosInstance, getString, setString, getCurrentDate, getCurrentTime } from '../util';
+import {
+  axiosInstance,
+  getString,
+  setString,
+  getCurrentDate,
+  getCurrentTime,
+} from '../util';
 
 /*
 const CompleteData = [
@@ -76,35 +78,35 @@ const CompleteData = [
 ];
 */
 
-const allProductsKey = "allProducts"
-const productsTimestampKey = "productsDownloadTime"
-
+const allProductsKey = 'allProducts';
+const productsTimestampKey = 'productsDownloadTime';
+// const [press, setPress] = useState(false);
 export function downloadProducts() {
-  axiosInstance.get('/product.json')
-  .then(function (rsp) {
-   var products = rsp.data.map(function(prod) {
-     const p =  prod.product;
-     const rp = p.related_part;
-     const inv = rp.inventory_items == null ? null : rp.inventory_items[0];
-     return ({
-      ProductName: p.name,
-      title: p.practical_name,
-      Pid: p.id,
-      id: p.id,
-      location: rp.custom_field_values == null ? "" : rp.custom_field_values["Bin Location"],
-      SystemInventory: inv == null ? "XXX" : inv.inventory_item.quantity_on_hand == null ? 0 : inv.inventory_item.quantity_on_hand
-
-     }); 
-   });
-    console.log(products);
-    setString(allProductsKey, JSON.stringify(products))
-    const timestamp = getCurrentDate() + ' ' + getCurrentTime();
-    setString(productsTimestampKey, timestamp);
-    console.log('product count: ' + products.length);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+  axiosInstance
+    .get('/product.json')
+    .then(function (rsp) {
+      var products = rsp.data.map(p => ({
+        ProductName: p.product.name,
+        title: p.product.practical_name,
+        Pid: p.product.id,
+        id: p.product.id,
+        SystemInventory:
+          p.inventory_items == null
+            ? 0
+            : p.inventory_items.reduce(
+                (pq, item) => pq + item.quantity_on_hand,
+                0,
+              ),
+      }));
+      console.log(products);
+      setString(allProductsKey, JSON.stringify(products));
+      const timestamp = getCurrentDate() + ' ' + getCurrentTime();
+      setString(productsTimestampKey, timestamp);
+      console.log('product count: ' + products.length);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 }
 
 export async function getProductsDownloadTimestamp() {
@@ -120,23 +122,26 @@ async function getAllProducts() {
   return JSON.parse(productsStr);
 }
 
-
-const InventoryDetails = ({navigation}) => {
+const InventoryDetails = () => {
   const [loading, setLoading] = useState(true);
-  const [fullData, setFullData] = useState([])
+  const [fullData, setFullData] = useState([]);
   const [data, setData] = useState([]);
   const [query, setQuery] = useState('');
   const [clickable, setClickable] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-
+  const [press, setPress] = useState(false);
   if (loading) {
     getAllProducts().then(products => {
       setLoading(false);
       setFullData(products);
       setData(products);
     });
-    return (<View><Text>Loading ...</Text></View>)
-  } 
+    return (
+      <View>
+        <Text>Loading ...</Text>
+      </View>
+    );
+  }
 
   const handleSearch = text => {
     const formattedQuery = text.toLowerCase();
@@ -186,8 +191,8 @@ const InventoryDetails = ({navigation}) => {
       </View>
     );
   }
-
-  return (
+  //const [press, setPress] = useState(false);
+  return !press ? (
     <View style={{flex: 1, backgroundColor: '#FAEEE0', elevation: 0}}>
       <View>
         <View style={styles.header}>
@@ -206,7 +211,8 @@ const InventoryDetails = ({navigation}) => {
               Pid={item.Pid}
               location={item.location}
               SystemInventory={item.SystemInventory}
-              onclick={() => navigation.navigate('PartDetail')}
+              onPress={() => setPress(true)}
+              //onPress={() => console.log('working')}
             />
           )}
           refreshing={refreshing}
@@ -214,16 +220,29 @@ const InventoryDetails = ({navigation}) => {
             setData(fullData);
           }}></FlatList>
 
-        <Button
-          top={Dimensions.get('window').height - 185}
+        {/* <Button
+          top={Dimensions.get('window').height - 155}
           propsStyle={{left: '50%', transform: [{translateX: -(301 / 2)}]}}
           width={301}
           content="ADD PRODUCT"
-          onclick={() => navigation.navigate('Countscreen')}
-        />
+        /> */}
       </View>
       <Toolbar />
     </View>
+  ) : (
+    <CompleteDetails
+      title="SKU #: UGG-BB-PUR-06"
+      Pid="3259810"
+      location="3259810"
+      SystemInventory="50"
+      UpdatedInventory="70"
+      TypeOfInventory="Finished Goods"
+      BatchQty="20"
+      Length="90"
+      Width="90"
+      Height="90"
+      Weight="90"
+    />
   );
 };
 
