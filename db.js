@@ -73,7 +73,7 @@ export async function addUser(username, passwordHash, apiKey, firstName, lastNam
         tx.executeSql("INSERT INTO Users (username, passwordHash, apiKey, firstName, lastName) VALUES (?, ?, ?, ?, ?)", 
         [username, passwordHash, apiKey, firstName, lastName],
         () => {
-            Alert.alert('User sucessfully registered',[{text: 'Okay'}]);
+            Alert.alert('User sucessfully registered!','You can now login to the app',[{text: 'Okay'}]);
             //return true;
         }, 
         error => {
@@ -82,7 +82,7 @@ export async function addUser(username, passwordHash, apiKey, firstName, lastNam
         }
         )
     });
-    //return true
+    return true
 };
 
 async function hash(str) {
