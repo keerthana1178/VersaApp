@@ -73,18 +73,16 @@ export async function addUser(username, passwordHash, apiKey, firstName, lastNam
         tx.executeSql("INSERT INTO Users (username, passwordHash, apiKey, firstName, lastName) VALUES (?, ?, ?, ?, ?)", 
         [username, passwordHash, apiKey, firstName, lastName],
         () => {
-            console.log('User sucessfully registered');
-            return true;
+            Alert.alert('User sucessfully registered',[{text: 'Okay'}]);
+            //return true;
         }, 
         error => {
-            Alert.alert('Registration Failed!','username and ApiKey must be unique.', [
-                {text: 'Okay'},
-            ]);
+            Alert.alert('Registration Failed!','username and ApiKey must be unique.', [{text: 'Okay'}]);
             console.log(error);
         }
         )
     });
-    return true
+    //return true
 };
 
 async function hash(str) {
