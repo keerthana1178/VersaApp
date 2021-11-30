@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
   StyleSheet,
@@ -8,18 +6,16 @@ import {
   Image,
   FlatList,
   TextInput,
-  ScrollView,
-  Alert
+  ScrollView
 } from 'react-native';
-import {useTheme} from '@react-navigation/native';
 import {filter} from 'lodash';
 import Toolbar from '../components/Toolbar';
 import Button from '../components/Button';
 import {Dimensions} from 'react-native';
 import Trial from '../components/Trial';
-import {log, set} from 'react-native-reanimated';
+import {set} from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/Ionicons';
-import HomeTiles from '../components/Hometiles';
+import CompleteDetails from './CompleteDetails';
 //import axios from 'axios';
 import { axiosInstance, getString, setString, getCurrentDate, getCurrentTime } from '../util';
 
@@ -123,11 +119,12 @@ async function getAllProducts() {
 
 const InventoryDetails = ({navigation}) => {
   const [loading, setLoading] = useState(true);
-  const [fullData, setFullData] = useState([])
+  const [fullData, setFullData] = useState([]);
   const [data, setData] = useState([]);
   const [query, setQuery] = useState('');
   const [clickable, setClickable] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [press, setPress] = useState(false);
 
   if (loading) {
     getAllProducts().then(products => {
@@ -187,7 +184,8 @@ const InventoryDetails = ({navigation}) => {
     );
   }
 
-  return (
+  //const [press, setPress] = useState(false);
+  return !press ?(
     <View style={{flex: 1, backgroundColor: '#FAEEE0', elevation: 0}}>
       <View>
         <View style={styles.header}>
@@ -206,7 +204,7 @@ const InventoryDetails = ({navigation}) => {
               Pid={item.Pid}
               location={item.location}
               SystemInventory={item.SystemInventory}
-              onclick={() => navigation.navigate('PartDetail')}
+              onPress={() => setPress(true)}
             />
           )}
           refreshing={refreshing}
@@ -214,16 +212,31 @@ const InventoryDetails = ({navigation}) => {
             setData(fullData);
           }}></FlatList>
 
-        <Button
+        {/*<Button
           top={Dimensions.get('window').height - 185}
           propsStyle={{left: '50%', transform: [{translateX: -(301 / 2)}]}}
           width={301}
           content="ADD PRODUCT"
           onclick={() => navigation.navigate('Countscreen')}
         />
+        />*/}
       </View>
       <Toolbar />
     </View>
+  ) : (
+    <CompleteDetails
+      title="SKU #: UGG-BB-PUR-06"
+      Pid="3259810"
+      location="3259810"
+      SystemInventory="50"
+      UpdatedInventory="70"
+      TypeOfInventory="Finished Goods"
+      BatchQty="20"
+      Length="90"
+      Width="90"
+      Height="90"
+      Weight="90"
+    />
   );
 };
 
